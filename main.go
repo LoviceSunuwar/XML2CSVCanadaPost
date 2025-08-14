@@ -85,7 +85,7 @@ func main() {
 				{"City", "delivery-spec/destination/recipient/city"},
 				{"ProvinceState", "delivery-spec/destination/recipient/prov-state"},
 				{"CustomerRef1", "delivery-spec/reference/customer-ref1"},
-				{"ItemID", "delivery-spec/reference/item-id"},
+				{"Tracking Number", "delivery-spec/reference/item-id"},
 			}
 			recordXPath := "/delivery-requests/delivery-request"
 
@@ -143,7 +143,11 @@ func convertXMLToCSV(xmlPath, recordXPath string, mappings []Mapping, w io.Write
 	for _, rec := range records {
 		row := make([]string, len(mappings))
 		for i, m := range mappings {
-			row[i] = extractValue(rec, m.Expr)
+			val := extractValue(rec, m.Expr)
+			if m.Header == "Tracking Number" {
+				val = "'" + val
+			}
+			row[i] = val
 		}
 		if err := csvw.Write(row); err != nil {
 			return err
