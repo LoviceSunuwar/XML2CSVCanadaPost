@@ -24,7 +24,8 @@ type Mapping struct {
 }
 
 func main() {
-	a := app.New()
+	//a := app.New()
+	a := app.NewWithID("com.lovice.xml2csv")
 	w := a.NewWindow("XML → CSV Extractor")
 	w.Resize(fyne.NewSize(600, 400))
 
@@ -36,7 +37,6 @@ func main() {
 	generateBtn.Disable()
 
 	var selectedXMLURI fyne.URI
-
 	chooseXMLBtn.OnTapped = func() {
 		fd := dialog.NewFileOpen(func(rc fyne.URIReadCloser, err error) {
 			if err != nil {
